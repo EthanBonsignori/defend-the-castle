@@ -8,14 +8,13 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      include: path.resolve(__dirname, 'src'),
-      exclude: /node_modules/,
-      use: {
+    rules: [
+      {
+        test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
       },
-    }],
+    ],
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
@@ -23,8 +22,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.joinn(__dirname, 'src', 'index.html'),
+      filename: './index.html',
+      template: path.join(__dirname, 'src', 'index.html'),
     }),
   ],
 };
