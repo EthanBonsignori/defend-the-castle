@@ -1,33 +1,37 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GlobalStyle from './theme/globalStyles';
+import Canvas from './components/Canvas';
+import { getCanvasPosition } from './utils/formulas';
 
-class App extends React.Component {
+class App extends Component {
+  componentDidMount() {
+    const self = this;
+    setInterval(() => {
+      self.props.moveObjects(self.canvasMousePosition);
+    }, 10);
+  }
+
+  trackMouse(event) {
+    this.canvasMousePosition = getCanvasPosition(event);
+  }
+
   render() {
     return (
       <>
-        <AppContainer>
-          <GameWindow>
-            {/* <Game /> */}
-          </GameWindow>
-        </AppContainer>
+        <Canvas
+          angle={this.props.angle}
+          trackMouse={event => (this.trackMouse(event))}
+        />
         <GlobalStyle />
       </>
     );
   }
 }
 
-const AppContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
-
-const GameWindow = styled.div`
-  width: 1200px;
-  height: 800px;
-  background: #000;
-`;
+App.propTypes = {
+  angle: PropTypes.number.isRequired,
+  moveObjects: PropTypes.func.isRequired,
+};
 
 export default App;
